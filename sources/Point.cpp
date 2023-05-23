@@ -8,8 +8,6 @@ namespace ariel{
 
     Point::Point(double otherX, double otherY): x(otherX), y(otherY){}
 
-    Point::Point(Point &other): x(other.getX()), y(other.getY()){}
-
     double Point::distance(Point &other){
         double dx = other.getX() - this->getX();
         double dy = other.getY() - this->getY();
@@ -26,13 +24,24 @@ namespace ariel{
         return this->y;
     }
 
-    Point Point::moveTowards(Point &source, Point &destination, double amount){
+    Point Point::moveTowards(Point &source, Point &destination, double amount) {
+        
+        double dx = source.getX() - destination.getX();
+        double dy = source.getY() - destination.getY();
 
-        return source;
+        double currentDist = sqrt(pow(dx, 2) + pow(dy,2));
+
+        if (currentDist <= amount){
+            return destination;
+        }else{
+            double towardsX = source.x + (dx * (amount / currentDist));
+            double towardsY = source.y + (dy * (amount / currentDist));
+            return Point(towardsX, towardsY);
+        }
     }
 
     void Point::print(){
-        cout << "Currently not implemented" << endl;
+        cout << "(x=" << x << ", y=" << y << ")" << endl;
     }
 
 }
