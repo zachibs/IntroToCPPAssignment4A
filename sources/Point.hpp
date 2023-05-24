@@ -11,10 +11,10 @@ namespace ariel{
         public:
             Point();
             Point(double, double);
-            double distance(Point &);
+            double distance(Point);
             double getX();
             double getY();
-            Point moveTowards(Point &, Point &, double);
+            static Point moveTowards(Point, Point, double);
             void print();
         };
 }

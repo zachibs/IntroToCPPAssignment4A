@@ -2,6 +2,8 @@
     "files.associations": {
         "string": "cpp",
         "cmath": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "string_view": "cpp",
+        "stdexcept": "cpp"
     }
 }

@@ -15,58 +15,20 @@ namespace ariel{
 
         public:
             Character();
-            Character(Point &, int, string);
+            Character(Point, int, string);
 
             bool isAlive();
-            double distance(Character &);
+            double distance(Character *);
             void hit(int);
             string getName();
             virtual string print() = 0;
             Point getLocation();
-            void setLocation(Point &);
+            void setLocation(Point);
             int getHitPoint();
             void setHitPoint(int);
             bool getIsInTeam();
             void setIsInTeam(bool);
+            virtual ~Character() = default;
     };
 
-    class Cowboy : public Character{
-        private:
-            int bullets;
-
-        public:
-            Cowboy(Point &, string);
-            void shoot(Character &);
-            bool hasboolets();
-            void reload();
-            string print();
-
-    };
-
-    class Ninja : public Character{
-        private:
-            int speed;
-        
-        public:
-            Ninja(Point &, string, int, int);
-            void move(Character &);
-            void slash(Character &);
-            string print();
-    };
-
-
-    class YoungNinja : Ninja{
-        public:
-            YoungNinja(Point &, string);
-    };
-
-    class TrainedNinja : Ninja{
-        public:
-            TrainedNinja(Point &, string);
-    };
-
-    class OldNinja : Ninja{
-        public:
-            OldNinja(Point &, string);
-    };
 }

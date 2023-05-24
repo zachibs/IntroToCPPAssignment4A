@@ -22,23 +22,38 @@ namespace ariel{
         member->setIsInTeam(true);
     }
 
-    string Team::print(){
-        string toPrint;
-        for (auto member : team){
-            toPrint += member->print() + "\n";
+    void Team::print(){
+        for(int i = 0; i < 2; i++){
+            for (auto member : team){
+                if(i == 0 && dynamic_cast<Cowboy *>(member) != NULL){
+                    cout << member->print() << endl;
+                } else if(i == 1 && dynamic_cast<Ninja *>(member) != NULL){
+                    cout << member->print() << endl;
+                }
+            }
         }
-        return toPrint;
     }
 
     Character * Team::closestCharacter(Character *teamLeader){
         double min = numeric_limits<double>::max();
         Character *character = nullptr;
 
-        for(Character *member : team){
-            if(member->isAlive()){
-                if (teamLeader->distance(*member) < min){
-                    min = teamLeader->distance(*member);
-                    character = member;
+        for(int i = 0; i < 2; i++){
+            for (Character *member : team){
+                if(i == 0 && dynamic_cast<Cowboy *>(member) != NULL){
+                    if(member->isAlive()){
+                        if (teamLeader->distance(member) < min){
+                            min = teamLeader->distance(member);
+                            character = member;
+                        }
+                    }
+                } else if(i == 1 && dynamic_cast<Ninja *>(member) != NULL){
+                    if(member->isAlive()){
+                        if (teamLeader->distance(member) < min){
+                            min = teamLeader->distance(member);
+                            character = member;
+                        }
+                    }
                 }
             }
         }
@@ -47,13 +62,21 @@ namespace ariel{
     }
 
 
-    bool Team::stillAlive(){
+    int Team::stillAlive(){
 
         int aliveCount = 0;
 
-        for(Character *member : team){
-            if((*member).isAlive()){
-                aliveCount += 1;
+        for(int i = 0; i < 2; i++){
+            for (auto member : team){
+                if(i == 0 && dynamic_cast<Cowboy *>(member) != NULL){
+                    if((*member).isAlive()){
+                        aliveCount += 1;
+                    }
+                } else if(i == 1 && dynamic_cast<Ninja *>(member) != NULL){
+                    if((*member).isAlive()){
+                        aliveCount += 1;
+                    }
+                }
             }
         }
 
@@ -92,7 +115,7 @@ namespace ariel{
                 if (member->isAlive()){
                     Cowboy *cowboy = dynamic_cast<Cowboy *>(member);
                     if(cowboy->hasboolets()){
-                        cowboy->shoot(*victim);
+                        cowboy->shoot(victim);
                     }else{
                         cowboy->reload();
                     }
@@ -111,10 +134,10 @@ namespace ariel{
             if (dynamic_cast<Ninja *>(member) != NULL){
                 if (member->isAlive()){
                     Ninja *ninja = dynamic_cast<Ninja *>(member);
-                    if(ninja->distance(*victim) <= 1){
-                        ninja->slash(*victim);
+                    if(ninja->distance(victim) <= 1){
+                        ninja->slash(victim);
                     }else{
-                        ninja->move(*victim);
+                        ninja->move(victim);
                     }
                 }
             }
@@ -132,5 +155,21 @@ namespace ariel{
         for(Character *member: team){
             delete member;
         }
-}
+    }
+
+    Character* Team::getTeamLeader(){
+        return this->teamLeader;
+    }
+
+    int Team::getTeamSize(){
+        return this->teamSize;
+    }
+
+    vector<Character *> Team::getTeam(){
+        return this->team;
+    }
+
+    void Team::setTeamLeader(Character *other){
+        this->teamLeader = other;
+    }
 }
